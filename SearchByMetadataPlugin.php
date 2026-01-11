@@ -283,7 +283,9 @@ class SearchByMetadataPlugin extends Omeka_Plugin_AbstractPlugin
     public function createLink($text, $args, $model)
     {
         $elementText = $args['element_text'];
-        if (trim($text) == '' || !$elementText) return $text;
+        if (!$elementText || trim((string) $text) == '') {
+            return $text;
+        }
         $url_base = strtolower($model) . '/browse';
         $elementId = $elementText->element_id;
         $url = url($url_base, array(
@@ -291,7 +293,7 @@ class SearchByMetadataPlugin extends Omeka_Plugin_AbstractPlugin
                 array(
                     'element_id' => $elementId,
                     'type' => 'is exactly',
-                    'terms' =>$elementText->text
+                    'terms' => $elementText->text
                 )
             )
         ));
@@ -301,4 +303,5 @@ class SearchByMetadataPlugin extends Omeka_Plugin_AbstractPlugin
         return "<a href=\"$url\"" . $tooltip . ">$text</a>";
     }
 }
+
 
